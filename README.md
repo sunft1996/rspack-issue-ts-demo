@@ -13,19 +13,34 @@ $ npm run build
 
 ```JS
 // src/index.ts
-const xhr = { status: 200 }
+const xhr = {
+    responseType: false,
+    responseText: "OK",
+    response: {}
+}
 
-console.log(( xhr || "text" ) !== "text"  || typeof xhr !== "string")
+console.log(
+    ( xhr.responseType || "text" ) !== "text"  ||
+    typeof xhr.responseText !== "string" ?
+        { binary: 1 } :
+        { text: 2 }
+)
+
+// 条件一 和 条件二 均为false，因此实际应该打印 { text: 2 }
 ```
 
 ## 打包后
 
 ```JS
-// src/index.ts
+// dist/main.js
 
 var xhr = {
-    status: 200
+    responseType: false,
+    responseText: "OK",
+    response: {}
 };
-console.log((xhr || "text") !== "text" || 0);  // 不符合预期，typeof xhr !== "string" 被转为 0
+console.log((xhr.responseType || "text") !== "text" || 0 ? { // 语句：`typeof xhr.responseText !== "string"` 被转为 0 
+    binary: 1
+} : 0) // 此处打印{ binary: 1 } 或 0，结果都不对；
 
 ```
