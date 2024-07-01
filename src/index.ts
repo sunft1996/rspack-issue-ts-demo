@@ -1,7 +1,14 @@
-import { a } from '@alias/a';
-import { b } from '@alias/b';
+const xhr = {
+    responseType: false,
+    responseText: "OK",
+    response: {}
+}
 
-const xhr = { status: 200 }
-console.log(( xhr || "text" ) !== "text"  || typeof xhr !== "string")
+console.log(
+    ( xhr.responseType || "text" ) !== "text"  ||
+    typeof xhr.responseText !== "string" ?
+        { binary: 1 } :
+        { text: 2 }
+)
 
-console.log(a, b);
+// 条件一 和 条件二 均为false，因此实际应该打印 { text: 2 }
